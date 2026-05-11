@@ -1,0 +1,32 @@
+# Secrets
+*.json
+!package.json
+!composer.json
+
+# Environment variables
+.env
+.env.local
+
+# Dependency directories
+node_modules/
+dist/
+build/
+.venv/
+venv/
+venv_temp/
+.venv_temp_excel/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.html
+*.xlsx
+*.csv
+!README.md
+!*.md
