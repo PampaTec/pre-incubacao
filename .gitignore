@@ -1,5 +1,7 @@
 # Secrets
 *.json
+IDs do Google.md
+*.sh
 !package.json
 !composer.json
 
