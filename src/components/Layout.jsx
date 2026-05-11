@@ -22,8 +22,15 @@ export default function Layout({ user }) {
             
             {/* Logo / Título */}
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-pampa text-pampa-green font-bold">
-                PampaTec
+              <Link to="/" className="flex items-center gap-3">
+                <img 
+                  src="/logo-pampatec.png" 
+                  alt="Logo PampaTec" 
+                  className="h-10 w-auto object-contain"
+                />
+                <span className="text-2xl font-pampa text-pampa-green font-bold hidden sm:block">
+                  Pré-Incubação
+                </span>
               </Link>
             </div>
 

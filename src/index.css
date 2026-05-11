@@ -1,11 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Cores da Identidade Visual PampaTec */
+  --color-pampa-green: #00A859;
+  --color-pampa-gray: #727476;
+  
+  /* Fontes */
+  --font-pampa: "Lily UPC", sans-serif;
+}
 
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  background-color: #f9fafb;
 }
 
 body {
@@ -14,20 +22,19 @@ body {
   place-content: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f9fafb;
 }
 
-/* Classe utilitária para a fonte do logo se disponível */
+/* Classe utilitária extra se necessário */
 .font-pampa {
   font-family: 'Lily UPC', sans-serif;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   color: #727476;
 }
 
-.btn-pampa {
-  @apply bg-pampa-green text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all font-semibold;
+@layer components {
+  .btn-pampa {
+    @apply bg-pampa-green text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all font-semibold cursor-pointer;
+  }
 }

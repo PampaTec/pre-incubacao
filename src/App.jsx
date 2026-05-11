@@ -20,8 +20,17 @@ function App() {
   // Estado que simula se o usuário está logado
   const [user, setUser] = useState({ authenticated: false, role: null });
 
-  // No mundo real, faríamos um fetch('/api/auth/status') aqui.
-  // Por enquanto o Layout cuida dos botões que redirecionam.
+  useEffect(() => {
+    // Busca o status real no backend enviando os cookies de sessão
+    fetch('http://localhost:3001/auth/status', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated) {
+          setUser({ authenticated: true, role: data.role });
+        }
+      })
+      .catch(err => console.error("Erro ao checar status:", err));
+  }, []);
 
   return (
     <BrowserRouter>

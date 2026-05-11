@@ -9,13 +9,15 @@ const oauth2Client = new google.auth.OAuth2(
 /**
  * Gera a URL de autenticação do Google
  * @param {string[]} scopes Escopos solicitados
+ * @param {string} state Estado customizado para passar no fluxo
  * @returns {string} URL de autorização
  */
-const getAuthUrl = (scopes) => {
+const getAuthUrl = (scopes, state = 'user') => {
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
         prompt: 'consent',
-        scope: scopes
+        scope: scopes,
+        state: state
     });
 };
 
