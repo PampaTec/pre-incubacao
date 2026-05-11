@@ -21,6 +21,15 @@ O Pré-Incubação PampaTec é uma aplicação web para gestão da jornada de pr
 | Editor da Skill BMC | **Formulário estruturado por seções** (Opção 3) — sem acesso direto ao arquivo |
 | Frontend | **React + Vite** com tailwindcss mobile first |
 | Backend | **Node.js + Express** |
+| Design System | **Identidade Visual PampaTec** (ver `identidade_visual_pampatec.md`) |
+
+---
+
+## Regra de Ouro do Frontend
+Todo o desenvolvimento de interface (CSS, Componentes, Layout) **DEVE** seguir rigorosamente os padrões definidos em `identidade_visual_pampatec.md`. 
+- **Cores primárias:** Verde (#00A859) e Cinza (#727476).
+- **Tipografia:** Lily UPC (ou fallback sans-serif moderno que mantenha a legibilidade).
+- **Aesthetics:** Design premium, vibrante e mobile-first.
 
 ---
 
@@ -257,13 +266,13 @@ Admin acessa /skill-editor
 
 **Objetivo:** Projeto rodando local com autenticação funcional.
 
-- [ ] Criar repositório GitHub com estrutura de pastas definida na seção 3.
-- [ ] Configurar `package.json` (Express, Vite, React Router v7, googleapis, `@google/generative-ai`, nodemailer).
-- [ ] Implementar `authRouter.js` com fluxo OAuth Google (passport-google-oauth20 ou raw OAuth2), solicitando escopo `generative-language` para todos os usuários e escopos Drive/Sheets/Docs/Gmail apenas para Admins.
-- [ ] Implementar middleware de proteção de rotas (Admin vs. Membro).
-- [ ] Criar `Layout.jsx` com Navbar e controle de acesso por papel.
-- [ ] Configurar `render.yaml` com variáveis de ambiente.
-- [ ] `.env.example` documentado.
+- [x] Criar repositório GitHub com estrutura de pastas definida na seção 3.
+- [x] Configurar `package.json` (Express, Vite, React Router v7, googleapis, `@google/generative-ai`, nodemailer).
+- [x] Implementar `authRouter.js` com fluxo OAuth Google (passport-google-oauth20 ou raw OAuth2), solicitando escopo `generative-language` para todos os usuários e escopos Drive/Sheets/Docs/Gmail apenas para Admins.
+- [x] Implementar middleware de proteção de rotas (Admin vs. Membro).
+- [x] Criar `Layout.jsx` com Navbar e controle de acesso por papel.
+- [x] Configurar `render.yaml` com variáveis de ambiente.
+- [x] `.env.example` documentado.
 
 **Entregável:** Login com Google funcionando, redirecionamento por papel (Admin/Membro), projeto deployável no Render.
 

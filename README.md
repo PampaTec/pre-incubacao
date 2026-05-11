@@ -82,5 +82,12 @@ npm run dev
 - [Skill do Consultor](file:///home/emersonrizzatti/Servidor_Local/PampaTec%20-%20Pr%C3%A9Incuba%C3%A7%C3%A3o/skill_consultor_pampatec.md)
 - [Identidade Visual](file:///home/emersonrizzatti/Servidor_Local/PampaTec%20-%20Pr%C3%A9Incuba%C3%A7%C3%A3o/identidade_visual_pampatec.md)
 
+## 🎨 Design e Experiência do Usuário
+
+A interface é construída seguindo rigorosamente a [Identidade Visual PampaTec](file:///home/emersonrizzatti/Servidor_Local/PampaTec%20-%20Pr%C3%A9Incuba%C3%A7%C3%A3o/identidade_visual_pampatec.md), garantindo consistência institucional:
+- **Cores Oficiais:** Verde Pampa (#00A859) e Cinza Corporativo (#727476).
+- **Tipografia:** Lily UPC.
+- **Princípios:** Interface "viva", com micro-animações, foco em dispositivos móveis e estética premium.
+
 ---
 Developed for **PampaTec - Incubadora Tecnológica.**

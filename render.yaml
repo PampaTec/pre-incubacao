@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: pampatec-pre-incubacao
+    env: node
+    buildCommand: npm install && cd src && npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        value: https://pampatec-pre-incubacao.onrender.com
+      # As chaves abaixo deverão ser preenchidas diretamente no painel do Render por segurança:
+      # GOOGLE_CLIENT_ID
+      # GOOGLE_CLIENT_SECRET
+      # GOOGLE_REDIRECT_URI
+      # ROOT_FOLDER_ID
+      # PROGRESS_SHEET_ID
+      # BMC_TEMPLATE_DOC_ID
+      # TUTORIAL_DOC_ID
+      # ADMIN_EMAIL
+      # COOKIE_KEY
