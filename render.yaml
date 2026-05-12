@@ -3,9 +3,12 @@ services:
     name: pampatec-pre-incubacao
     env: node
     plan: free
-    buildCommand: npm install && cd src && npm install && npm run build
+    rootDir: .
+    buildCommand: npm install --legacy-peer-deps && npm run build
     startCommand: npm start
     envVars:
+      - key: NODE_VERSION
+        value: 20
       - key: NODE_ENV
         value: production
       - key: PORT
