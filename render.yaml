@@ -2,6 +2,7 @@ services:
   - type: web
     name: pampatec-pre-incubacao
     env: node
+    plan: free
     buildCommand: npm install && cd src && npm install && npm run build
     startCommand: npm start
     envVars:
