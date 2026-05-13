@@ -282,23 +282,23 @@ Admin acessa /skill-editor
 
 **Objetivo:** CRUD de times com Drive operacional.
 
-- [ ] Implementar `driveService.js`:
+- [x] Implementar `driveService.js`:
   - `criarPasta(nome)`
   - `clonarArquivo(fileId, nome, pastaDestinoId)`
   - `compartilharComUsuarios(fileId, emails[])`
   - `listarArquivosNaPasta(pastaId)`
-- [ ] Implementar `sheetsService.js`:
+- [x] Implementar `sheetsService.js`:
   - `registrarTime(dados)`
   - `listarTimes()`
   - `atualizarProgresso(id_time, etapa, status, resposta)`
   - `salvarMensagemChat(id_time, role, conteudo)`
   - `carregarHistoricoChat(id_time)`
-- [ ] Implementar `docsService.js`:
+- [x] Implementar `docsService.js`:
   - `atualizarSecaoEtapa(docId, etapa, texto)`
-- [ ] Implementar `mailService.js` via Gmail API.
-- [ ] Criar página `NovoTime.jsx` + `adminRouter.js` com endpoint `POST /api/teams`.
-- [ ] Criar página `GerenciarTime.jsx` com listagem de membros e progresso por etapa.
-- [ ] Criar `Dashboard.jsx` (Admin) com visão geral de todos os times.
+- [x] Implementar `mailService.js` via Gmail API.
+- [x] Criar página `NovoTime.jsx` + `adminRouter.js` com endpoint `POST /api/teams`.
+- [x] Criar página `GerenciarTime.jsx` com listagem de membros e progresso por etapa.
+- [x] Criar `Dashboard.jsx` (Admin) com visão geral de todos os times.
 
 **Entregável:** Admin consegue criar time, Drive recebe pasta+doc, membros recebem e-mail.
 
@@ -308,13 +308,13 @@ Admin acessa /skill-editor
 
 **Objetivo:** Chat funcional com continuidade entre sessões e progresso salvo.
 
-- [ ] Implementar `geminiService.js`:
+- [x] Implementar `geminiService.js`:
   - Recebe o `accessToken` do usuário da sessão (não usa chave de API global).
   - Carrega `skill_consultor_pampatec.md` do Drive como system prompt.
   - Monta histórico de conversa no formato Gemini (`role: user/model`).
   - Detecta marcação de conclusão de etapa na resposta.
-- [ ] Implementar `chatRouter.js` (`POST /api/chat`).
-- [ ] Criar feature `chat/` no frontend:
+- [x] Implementar `chatRouter.js` (`POST /api/chat`).
+- [x] Criar feature `chat/` no frontend:
   - Componente de chat com histórico rolável.
   - Indicador de "Gemini digitando...".
   - Exibição de progresso BMC ao lado do chat.

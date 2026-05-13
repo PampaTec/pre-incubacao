@@ -1,9 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+import NovoTime from './pages/NovoTime';
+import GerenciarTime from './pages/GerenciarTime';
+import MeuProjeto from './pages/MeuProjeto';
 import './index.css';
 
-// Componentes temporários (Mocks) para as páginas
 const Home = () => (
   <div className="text-center py-20">
     <h1 className="text-4xl font-bold font-pampa text-pampa-green mb-4">Bem-vindo à Pré-Incubação PampaTec</h1>
@@ -13,15 +16,21 @@ const Home = () => (
   </div>
 );
 
-const Dashboard = () => <h2 className="text-2xl font-bold">Painel do Administrador</h2>;
-const MeuProjeto = () => <h2 className="text-2xl font-bold">Meu Projeto (Canvas)</h2>;
+function AdminRoute({ children, user }) {
+  if (!user.authenticated) return <Navigate to="/" replace />;
+  if (user.role !== 'admin') return <Navigate to="/time" replace />;
+  return children;
+}
+
+function MemberRoute({ children, user }) {
+  if (!user.authenticated) return <Navigate to="/" replace />;
+  return children;
+}
 
 function App() {
-  // Estado que simula se o usuário está logado
   const [user, setUser] = useState({ authenticated: false, role: null });
 
   useEffect(() => {
-    // Busca o status real no backend enviando os cookies de sessão
     fetch('http://localhost:3001/auth/status', { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
@@ -37,9 +46,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout user={user} />}>
           <Route index element={<Home />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="time" element={<MeuProjeto />} />
-          {/* Outras rotas entrarão aqui */}
+          <Route path="dashboard" element={
+            <AdminRoute user={user}><Dashboard /></AdminRoute>
+          } />
+          <Route path="novo-time" element={
+            <AdminRoute user={user}><NovoTime /></AdminRoute>
+          } />
+          <Route path="gerenciar-time/:id" element={
+            <AdminRoute user={user}><GerenciarTime /></AdminRoute>
+          } />
+          <Route path="time" element={
+            <MemberRoute user={user}><MeuProjeto /></MemberRoute>
+          } />
         </Route>
       </Routes>
     </BrowserRouter>

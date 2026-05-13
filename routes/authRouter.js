@@ -4,15 +4,16 @@ const { getAuthUrl, getTokens, getAuthenticatedClient } = require('../services/g
 
 const router = express.Router();
 
-// Escopos base para Empreendedores (Membros do time)
+const { salvarTokensAdmin } = require('../services/tokenStore');
+
 const SCOPES_MEMBER = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile'
 ];
 
-// Escopos completos para Administradores
 const SCOPES_ADMIN = [
-    ...SCOPES_MEMBER,
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/drive',
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/documents',
@@ -66,6 +67,11 @@ router.get('/google/callback', async (req, res) => {
 
         req.session.role = role;
         req.session.email = userEmail;
+
+        // Armazena tokens Admin globalmente para sheets writes do chat
+        if (role === 'admin') {
+            salvarTokensAdmin(tokens);
+        }
 
         // Redireciona para o frontend no lugar correto
         const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5174';

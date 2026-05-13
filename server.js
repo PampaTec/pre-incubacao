@@ -26,9 +26,15 @@ app.get('/api/health', (req, res) => {
 
 // Rotas do sistema
 const authRouter = require('./routes/authRouter');
+const adminRouter = require('./routes/adminRouter');
+const teamRouter = require('./routes/teamRouter');
+const chatRouter = require('./routes/chatRouter');
 
 // Aplicando as rotas
 app.use('/auth', authRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/teams', teamRouter);
+app.use('/api/chat', chatRouter);
 
 
 // Servir frontend em produção
