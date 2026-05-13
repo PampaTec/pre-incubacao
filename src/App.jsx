@@ -5,6 +5,9 @@ import Dashboard from './pages/Dashboard';
 import NovoTime from './pages/NovoTime';
 import GerenciarTime from './pages/GerenciarTime';
 import MeuProjeto from './pages/MeuProjeto';
+import SkillEditor from './pages/SkillEditor';
+import TemplateManager from './pages/TemplateManager';
+import Configuracoes from './pages/Configuracoes';
 import './index.css';
 
 const Home = () => (
@@ -57,6 +60,15 @@ function App() {
           } />
           <Route path="time" element={
             <MemberRoute user={user}><MeuProjeto /></MemberRoute>
+          } />
+          <Route path="skill-editor" element={
+            <AdminRoute user={user}><SkillEditor /></AdminRoute>
+          } />
+          <Route path="templates" element={
+            <AdminRoute user={user}><TemplateManager /></AdminRoute>
+          } />
+          <Route path="configuracoes" element={
+            <AdminRoute user={user}><Configuracoes /></AdminRoute>
           } />
         </Route>
       </Routes>

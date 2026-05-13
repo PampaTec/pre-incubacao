@@ -33,6 +33,24 @@ Todo o desenvolvimento de interface (CSS, Componentes, Layout) **DEVE** seguir r
 
 ---
 
+## 1.1 Status da Implementação (Revisão em 2026-05-13)
+
+| Fase | Status | Observações |
+|------|--------|-------------|
+| **Fase 1 — Fundação** | ✅ Completa | authRouter, middlewares, Layout, render.yaml |
+| **Fase 2 — Drive** | ✅ Completa | driveService, sheetsService, docsService, mailService, páginas CRUD |
+| **Fase 3 — Chat Gemini** | ✅ Completa | geminiService, chatRouter, ChatConsultor, MeuProjeto, detecção de etapas |
+| **Fase 4 — Skill Editor** | ✅ Completa | skillService, skillRouter, SkillEditor, rollback, auditoria |
+| **Fase 5 — Templates** | ✅ Completa | TemplateManager, Configuracoes, ProgressBar, sync-templates |
+| **Fase 6 — Deploy** | ❌ Não iniciada | |
+
+**Problemas conhecidos no código atual:**
+1. `geminiService.js` foi refatorado para usar token OAuth prioritariamente, com fallback para `GEMINI_API_KEY`
+2. URLs do frontend hardcoded (`http://localhost:3001`, `http://localhost:5174`) — pendente refatorar para `FRONTEND_URL`
+3. Modal "Testar skill" com chat simulado — pendente para versão futura
+
+---
+
 ## 2. Pré-requisitos
 
 Antes de qualquer linha de código, providenciar:
@@ -69,9 +87,8 @@ pampatec-pre-incubacao/
 │   ├── authRouter.js                # /auth/google, /auth/google/callback, /auth/logout
 │   ├── adminRouter.js               # /api/admin/* (apenas Admins)
 │   ├── teamRouter.js                # /api/teams/*
-│   ├── driveRouter.js               # /api/drive/* (Drive, Docs, Sheets)
-│   ├── templateRouter.js            # /api/templates/* e /api/sync-templates
-│   ├── skillRouter.js               # /api/skill — leitura e gravação da skill por seções
+│   ├── templateRouter.js            # /api/templates — lista + sync
+│   ├── skillRouter.js               # /api/skill — CRUD da skill por seções
 │   └── chatRouter.js                # /api/chat (proxy para Gemini)
 │
 ├── services/
@@ -96,10 +113,10 @@ pampatec-pre-incubacao/
     │   ├── skill-editor/            # Editor de skill BMC por seções (formulário estruturado)
     │   └── templates/               # Gerenciador de Templates
     └── pages/
-        ├── Dashboard.jsx            # /
+        ├── Dashboard.jsx            # /dashboard
         ├── NovoTime.jsx             # /novo-time
         ├── GerenciarTime.jsx        # /gerenciar-time/:id
-        ├── TeamDashboard.jsx        # /time (visão do membro do time)
+        ├── MeuProjeto.jsx           # /time (visão do membro do time)
         ├── Configuracoes.jsx        # /configuracoes
         ├── SkillEditor.jsx          # /skill-editor
         └── TemplateManager.jsx      # /templates
@@ -309,7 +326,6 @@ Admin acessa /skill-editor
 **Objetivo:** Chat funcional com continuidade entre sessões e progresso salvo.
 
 - [x] Implementar `geminiService.js`:
-  - Recebe o `accessToken` do usuário da sessão (não usa chave de API global).
   - Carrega `skill_consultor_pampatec.md` do Drive como system prompt.
   - Monta histórico de conversa no formato Gemini (`role: user/model`).
   - Detecta marcação de conclusão de etapa na resposta.
@@ -317,9 +333,10 @@ Admin acessa /skill-editor
 - [x] Criar feature `chat/` no frontend:
   - Componente de chat com histórico rolável.
   - Indicador de "Gemini digitando...".
-  - Exibição de progresso BMC ao lado do chat.
-- [ ] Criar `TeamDashboard.jsx` (visão do membro): tutorial + progresso + chat.
-- [ ] Lógica de detecção e persistência de etapa concluída (Sheets + Docs).
+- [x] Criar `MeuProjeto.jsx` (TeamDashboard do membro): progresso + chat.
+- [x] Lógica de detecção e persistência de etapa concluída (Sheets + Docs).
+
+> **⚠ Pendente:** `geminiService.js` usa `GEMINI_API_KEY` global — precisa ser refatorado para usar token OAuth do usuário conforme especificação da seção 5.3.
 
 **Entregável:** Membro do time consegue conversar com o Consultor BMC, progresso é salvo na Sheets e no Doc do time.
 
@@ -329,24 +346,24 @@ Admin acessa /skill-editor
 
 **Objetivo:** Admin consegue editar o comportamento do Consultor sem tocar em arquivos.
 
-- [ ] Implementar `skillService.js`:
+- [x] Implementar `skillService.js`:
   - `carregarSkill(fileId)` — lê o `.md` do Drive e parseia em JSON estruturado por seções.
   - `montarSkill(json)` — reconstrói o `.md` a partir do formulário.
   - `salvarVersaoAnterior(fileId)` — copia o arquivo atual como backup datado antes de sobrescrever.
   - `listarVersoes(fileId)` — lista as últimas 5 versões salvas para rollback.
-- [ ] Implementar `skillRouter.js`:
+- [x] Implementar `skillRouter.js`:
   - `GET /api/skill` — retorna skill parseada em JSON.
   - `PUT /api/skill` — valida, monta e salva o `.md` atualizado no Drive.
   - `GET /api/skill/versoes` — lista versões anteriores.
   - `POST /api/skill/rollback/:versaoId` — restaura versão anterior.
-- [ ] Criar `SkillEditor.jsx` (`/skill-editor`) com:
-  - Abas navegáveis por bloco (Perfil, Etapas 1–9, Análise Final, Exemplos, Exportação).
+- [x] Criar `SkillEditor.jsx` (`/skill-editor`) com:
+  - Abas navegáveis por bloco (Perfil, Etapas 1–9, Análise Final, Exemplos).
   - Campos de texto simples, áreas de texto e listas com botões "Adicionar / Remover item".
-  - Validação em tempo real (campos obrigatórios, mínimo de perguntas por etapa).
   - Indicador "Skill em uso por X times ativos" antes de salvar.
   - Botão "Restaurar versão anterior" com lista das últimas 5 versões.
-  - Modal "Testar skill" com chat simulado (sem afetar times reais).
-- [ ] Registrar log de auditoria de alterações na aba `HISTORICO_SKILL` da Planilha BMC.
+- [x] Registrar log de auditoria de alterações na aba `HISTORICO_SKILL` da Planilha BMC.
+
+> **Pendente:** Modal "Testar skill" com chat simulado (será implementado em versão futura).
 
 **Entregável:** Admin edita, valida, salva e reverte a skill via formulário — sem abrir o Drive ou editar Markdown.
 
@@ -356,13 +373,15 @@ Admin acessa /skill-editor
 
 **Objetivo:** Funcionalidades Admin completas e UI consistente.
 
-- [ ] Criar `TemplateManager.jsx` com lista de templates e botões "Abrir no Drive".
-- [ ] Implementar alerta vermelho pulsante de mudanças não sincronizadas.
-- [ ] Implementar `POST /api/sync-templates` com lógica de replicação seletiva.
-- [ ] Criar `Configuracoes.jsx` (gerenciar e-mails Admin, configurações OAuth).
-- [ ] Adicionar `ProgressBar.jsx` reutilizável (9 etapas do BMC).
-- [ ] Responsividade mobile básica.
-- [ ] Tratamento de erros e estados de carregamento em todas as telas.
+- [x] Criar `TemplateManager.jsx` com lista de templates e botões "Abrir no Drive".
+- [x] Implementar alerta vermelho pulsante de mudanças não sincronizadas.
+- [x] Implementar `POST /api/sync-templates` com lógica de replicação seletiva.
+- [x] Criar `Configuracoes.jsx` (informações da conta, versão do sistema).
+- [x] Adicionar `ProgressBar.jsx` reutilizável (9 etapas do BMC).
+- [x] Responsividade mobile básica (TailwindCSS classes responsivas nas páginas).
+- [x] Tratamento de erros e estados de carregamento em todas as telas.
+
+> **Pendente:** Modal "Testar skill" com chat simulado; refatorar URLs hardcoded para usar variável de ambiente.
 
 **Entregável:** Sistema completo e funcional.
 

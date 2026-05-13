@@ -6,6 +6,25 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = 'gemini-2.0-flash';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
+function getGeminiHeaders(tokens) {
+  if (tokens && tokens.access_token) {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${tokens.access_token}`
+    };
+  }
+  return {
+    'Content-Type': 'application/json'
+  };
+}
+
+function getGeminiUrl() {
+  if (GEMINI_API_KEY) {
+    return `${GEMINI_URL}?key=${GEMINI_API_KEY}`;
+  }
+  return GEMINI_URL;
+}
+
 async function getSkillPrompt(tokens) {
   const fileId = process.env.DRIVE_SKILL_FILE_ID;
   if (!fileId) return 'Você é um assistente.';
@@ -46,9 +65,9 @@ async function gerarResposta(tokens, historico, novaMensagem) {
 
   try {
     const response = await axios.post(
-      `${GEMINI_URL}?key=${GEMINI_API_KEY}`,
+      getGeminiUrl(),
       body,
-      { headers: { 'Content-Type': 'application/json' } }
+      { headers: getGeminiHeaders(tokens) }
     );
 
     const data = response.data;

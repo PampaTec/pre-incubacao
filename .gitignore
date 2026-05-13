@@ -2,6 +2,7 @@
 *.json
 IDs do Google.md
 *.sh
+!restart_server.sh
 !package.json
 !composer.json
 
