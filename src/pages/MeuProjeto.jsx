@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ChatConsultor from '../components/ChatConsultor';
 
+function getField(obj, ...keys) {
+  for (const key of keys) {
+    const val = obj && obj[key];
+    if (val !== undefined && val !== null && val !== '') return val;
+  }
+  return '';
+}
+
 export default function MeuProjeto() {
   const [team, setTeam] = useState(null);
   const [progresso, setProgresso] = useState([]);
@@ -26,24 +34,29 @@ export default function MeuProjeto() {
   if (loading) return <div className="p-8 text-center">Carregando...</div>;
   if (!team) return <div className="p-8 text-center text-red-500">Nenhum time encontrado para o seu usuário. Solicite ao administrador que adicione seu e-mail a um time.</div>;
 
+  const nomeProjeto = getField(team, 'nome_projeto', 'Nome_Projeto', 'NOME_PROJETO', 'nome_proyecto', 'nomeTime');
+  const pastaDriveId = getField(team, 'pasta_drive_id', 'Pasta_Drive_ID', 'pastaId', 'PASTA_DRIVE_ID');
+  const docModeloId = getField(team, 'doc_modelo_id', 'Doc_Modelo_ID', 'docId', 'DOC_MODELO_ID');
+  const idTime = getField(team, 'id_time', 'ID_Time', 'idTime', 'ID');
+
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       {/* Coluna Esquerda: Progresso */}
       <div className="lg:col-span-1 space-y-6">
         <div className="bg-white p-6 rounded-lg shadow border border-gray-100">
-          <h2 className="text-2xl font-bold font-pampa text-pampa-green mb-2">{team.nome_projeto || team.Nome_Projeto || 'Meu Projeto'}</h2>
+          <h2 className="text-2xl font-bold font-pampa text-pampa-green mb-2">{nomeProjeto || 'Meu Projeto'}</h2>
           <p className="text-gray-600 text-sm mb-4">
             Acompanhe o progresso do seu Business Model Canvas.
           </p>
           <div className="flex gap-2">
-            {team.pasta_drive_id && (
-              <a href={`https://drive.google.com/drive/folders/${team.pasta_drive_id}`} target="_blank" rel="noopener noreferrer" className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">
+            {pastaDriveId && (
+              <a href={`https://drive.google.com/drive/folders/${pastaDriveId}`} target="_blank" rel="noopener noreferrer" className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">
                 📁 Pasta no Drive
               </a>
             )}
-            {team.doc_modelo_id && (
-              <a href={`https://docs.google.com/document/d/${team.doc_modelo_id}/edit`} target="_blank" rel="noopener noreferrer" className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">
+            {docModeloId && (
+              <a href={`https://docs.google.com/document/d/${docModeloId}/edit`} target="_blank" rel="noopener noreferrer" className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">
                 📄 Doc Modelo
               </a>
             )}
@@ -74,8 +87,8 @@ export default function MeuProjeto() {
       {/* Coluna Direita: Chat */}
       <div className="lg:col-span-2">
         <ChatConsultor 
-          id_time={team.id_time || team.ID_Time} 
-          doc_modelo_id={team.doc_modelo_id || team.Doc_Modelo_ID}
+          id_time={idTime} 
+          doc_modelo_id={docModeloId}
           onProgressUpdate={carregarDados}
         />
       </div>

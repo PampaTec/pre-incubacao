@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+function getField(obj, ...keys) {
+  for (const key of keys) {
+    const val = obj && obj[key];
+    if (val !== undefined && val !== null && val !== '') return val;
+  }
+  return '';
+}
+
 export default function Dashboard() {
   const [times, setTimes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,27 +70,34 @@ export default function Dashboard() {
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {times.map(time => (
-            <Link
-              key={time.id_time}
-              to={`/gerenciar-time/${time.id_time}`}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-pampa-green transition-all"
-            >
-              <h3 className="text-xl font-bold text-pampa-green mb-2">{time.nome_projeto}</h3>
-              <p className="text-sm text-gray-500 mb-3">
-                <span className="font-medium">ID:</span> {time.id_time}
-              </p>
-              <p className="text-sm text-gray-500 mb-3">
-                <span className="font-medium">Membros:</span> {time.membros}
-              </p>
-              <p className="text-sm text-gray-400">
-                <span className="font-medium">Criado em:</span> {time.data_criacao}
-              </p>
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <span className="text-pampa-green text-sm font-medium">Ver detalhes →</span>
-              </div>
-            </Link>
-          ))}
+          {times.map(time => {
+            const idTime = getField(time, 'id_time', 'ID_Time', 'idTime', 'ID');
+            const nomeProjeto = getField(time, 'nome_projeto', 'Nome_Projeto', 'NOME_PROJETO', 'nome_proyecto', 'nomeTime');
+            const membros = getField(time, 'membros', 'Membros', 'MEMBROS', 'Membros_Time', 'membros_time', 'email_membros', 'Emails', 'members', 'Membors');
+            const dataCriacao = getField(time, 'data_criacao', 'Data_Criacao', 'dataCriacao', 'criado_em');
+
+            return (
+              <Link
+                key={idTime}
+                to={`/gerenciar-time/${idTime}`}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-pampa-green transition-all"
+              >
+                <h3 className="text-xl font-bold text-pampa-green mb-2">{nomeProjeto}</h3>
+                <p className="text-sm text-gray-500 mb-3">
+                  <span className="font-medium">ID:</span> {idTime}
+                </p>
+                <p className="text-sm text-gray-500 mb-3">
+                  <span className="font-medium">Membros:</span> {membros}
+                </p>
+                <p className="text-sm text-gray-400">
+                  <span className="font-medium">Criado em:</span> {dataCriacao}
+                </p>
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <span className="text-pampa-green text-sm font-medium">Ver detalhes →</span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

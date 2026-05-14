@@ -51,7 +51,7 @@ router.post('/', requireAuth, async (req, res) => {
 router.get('/:id_time', requireAuth, async (req, res) => {
   try {
     const { id_time } = req.params;
-    const tokens = req.session.tokens;
+    const tokens = getAdminTokenFallback(req.session.tokens);
     const historicoSheets = await sheetsService.carregarHistoricoChat(id_time, tokens);
     res.json(historicoSheets);
   } catch (error) {
