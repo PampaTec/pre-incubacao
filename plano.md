@@ -336,7 +336,7 @@ Admin acessa /skill-editor
 - [x] Criar `MeuProjeto.jsx` (TeamDashboard do membro): progresso + chat.
 - [x] Lógica de detecção e persistência de etapa concluída (Sheets + Docs).
 
-> **⚠ Pendente:** `geminiService.js` usa `GEMINI_API_KEY` global — precisa ser refatorado para usar token OAuth do usuário conforme especificação da seção 5.3.
+> **⚠ Observação:** Tentativa de usar token OAuth do usuário para Gemini foi descartada — o escopo `generative-language` é restrito e exige verificação do app OAuth pelo Google, inviável para este projeto. A `GEMINI_API_KEY` global continua sendo o método de autenticação. Se precisar de mais cota, gere uma nova chave paga em https://aistudio.google.com/apikey.
 
 **Entregável:** Membro do time consegue conversar com o Consultor BMC, progresso é salvo na Sheets e no Doc do time.
 

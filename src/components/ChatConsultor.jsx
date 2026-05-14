@@ -47,7 +47,9 @@ export default function ChatConsultor({ id_time, doc_modelo_id, onProgressUpdate
       });
       const data = await response.json();
 
-      if (data.texto) {
+      if (data.error) {
+        setMessages(prev => [...prev, { role: 'model', text: `❌ ${data.error}` }]);
+      } else if (data.texto) {
         setMessages(prev => [...prev, { role: 'model', text: data.texto }]);
       }
       
@@ -56,7 +58,7 @@ export default function ChatConsultor({ id_time, doc_modelo_id, onProgressUpdate
       }
     } catch (err) {
       console.error('Erro ao enviar mensagem:', err);
-      setMessages(prev => [...prev, { role: 'model', text: 'Desculpe, ocorreu um erro ao processar sua mensagem.' }]);
+      setMessages(prev => [...prev, { role: 'model', text: '❌ Desculpe, ocorreu um erro ao processar sua mensagem.' }]);
     } finally {
       setLoading(false);
     }

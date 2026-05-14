@@ -31,7 +31,7 @@ router.post('/', requireAuth, async (req, res) => {
       conteudo: msg.conteudo || msg.Conteudo || msg['conteúdo'] || msg['Conteúdo'] || ''
     }));
 
-    const { texto, concluidoEtapa } = await geminiService.gerarResposta(adminTokens, historico, mensagem);
+    const { texto, concluidoEtapa } = await geminiService.gerarResposta(historico, mensagem);
 
     await sheetsService.salvarMensagemChat(id_time, 'model', texto, adminTokens);
 
